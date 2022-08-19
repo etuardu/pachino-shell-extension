@@ -1,0 +1,10 @@
+{
+	"description" : "A simple pomodoro countdown in the upper panel",
+	"name" : "Pachino",
+	"shell-version" : [
+    "42"
+	],
+	"url" : "https://github.com/etuardu/pachino-shell-extension",
+	"uuid" : "pachino@edonan.gmail.com",
+	"version" : 1
+}
