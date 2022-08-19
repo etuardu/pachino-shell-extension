@@ -35,8 +35,8 @@ function loop() {
     millis = (pause ? 5 : 25) * 60*1000;
     if (pause) {
       Util.spawnCommandLine(
-        "zenity --notification --text 'Take a break!'"
-      );
+        "zenity --notification --text '🍅 Pachino\n\r\r⏸️ Take a break!\r\r\r'"
+      )
     }
   }
   const clock = formatTime(millis);
@@ -74,7 +74,7 @@ function init () {
   });
 
   panelButtonText = new St.Label({
-    text : "ciao",
+    text : "",
     y_align: Clutter.ActorAlign.CENTER,
   });
 
