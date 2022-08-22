@@ -55,6 +55,7 @@ function toggle(value) {
   }
   if (main_switch) {
     loop();
+    if (timer) _clearInterval(timer);
     timer = _setInterval(loop, 1000);
   } else {
     _clearInterval(timer);
@@ -88,11 +89,11 @@ function init () {
 
 function enable () {
   Main.panel._rightBox.insert_child_at_index(panelButton, 1);
-  toggle(false);
+  toggle(!!timer);
 }
 
 function disable () {
-  toggle(false);
+  toggle(!!timer);
   Main.panel._rightBox.remove_child(panelButton);
 }
 
