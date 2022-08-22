@@ -41,8 +41,8 @@ function loop() {
   }
   const clock = formatTime(millis);
   const txt = pause
-    ? ` 🟢🟢 ⏸️ ${clock} 🟢🟢 `
-    : ` 🍅 ${clock} `;
+    ? ` 🍅 ${clock} ` + (((millis / 1000) % 2 === 0) ? '⏸️' : '⬛')
+    : ` 🫑 ${clock} `;
   panelButtonText.set_text(txt);
 
 }
