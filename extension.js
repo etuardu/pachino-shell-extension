@@ -81,7 +81,8 @@ function init () {
 
   panelButton.set_child(panelButtonText);
 
-  panelButton.connect('button-press-event', () => {
+  panelButton.connect('button-press-event', (p1, e) => {
+    if (e.get_button() == 3) pause = false;
     toggle();
   });
 
