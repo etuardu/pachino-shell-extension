@@ -35,14 +35,14 @@ function loop() {
     millis = (pause ? 5 : 25) * 60*1000;
     if (pause) {
       Util.spawnCommandLine(
-        "zenity --notification --text '🍅 Pachino\n\r\r⏸️ Take a break!\r\r\r'"
+        "zenity --notification --text '🍎 Pachino\n\r\r⏸️ Take a break!\r\r\r'"
       )
     }
   }
   const clock = formatTime(millis);
   const txt = pause
-    ? ` 🍅 ${clock} ` + (((millis / 1000) % 2 === 0) ? '⏸️' : '⬛')
-    : ` 🫑 ${clock} `;
+    ? ` 🍎 ${clock} ` + (((millis / 1000) % 2 === 0) ? '⏸️' : '⬛')
+    : ` 🍏 ${clock} `;
   panelButtonText.set_text(txt);
 
 }
@@ -60,7 +60,7 @@ function toggle(value) {
   } else {
     _clearInterval(timer);
     timer = null;
-    panelButtonText.set_text(' 🍅 ––:–– ');
+    panelButtonText.set_text(' 🍏 ––:–– ');
     millis = 0;
     pause = true;
   };
