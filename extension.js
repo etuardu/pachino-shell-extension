@@ -91,11 +91,11 @@ function init () {
 
 function enable () {
   Main.panel._rightBox.insert_child_at_index(panelButton, 1);
-  toggle(!!timer);
+  toggle(main_switch);
 }
 
 function disable () {
-  toggle(!!timer);
+  toggle(main_switch);
   Main.panel._rightBox.remove_child(panelButton);
 }
 
