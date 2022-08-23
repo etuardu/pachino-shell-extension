@@ -59,6 +59,7 @@ function toggle(value) {
     timer = _setInterval(loop, 1000);
   } else {
     _clearInterval(timer);
+    timer = null;
     panelButtonText.set_text(' 🍅 ––:–– ');
     millis = 0;
     pause = true;
