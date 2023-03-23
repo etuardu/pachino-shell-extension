@@ -34,8 +34,10 @@ function loop() {
     pause = !pause;
     millis = (pause ? 5 : 25) * 60*1000;
     if (pause) {
+      const extensionDir = imports.misc.extensionUtils.getCurrentExtension().path;
       Util.spawnCommandLine(
-        "zenity --notification --text '🍎 Pachino\n\r\r⏸️ Take a break!\r\r\r'"
+        //"zenity --notification --text '🍎 Pachino\n\r\r⏸️ Take a break!\r\r\r'"
+        "gjs " + GLib.build_filenamev([extensionDir, "countdown.js"]) + " " + millis/1000
       )
     }
   }
