@@ -24,6 +24,24 @@ class TextClock {
   }
 };
 
+function create_windows(app) {
+  // Create a new window for each screen,
+  // position each windows on its screen,
+  // return the array of created windows.
+  const windows = [];
+  let display = Gdk.Display.get_default();
+  for (let i = 0; i < display.get_n_monitors(); i++) {
+    let monitor = display.get_monitor(i);
+    let {x, y} = monitor.get_geometry();
+    let win = new Gtk.Window({
+      application: app,
+    });
+    win.move(x, y);
+    windows.push(win);
+  }
+  return windows;
+}
+
 let app = new Gtk.Application({
   application_id: 'com.gmail.etuardu.pachino-countdown'
 });
@@ -31,38 +49,57 @@ let app = new Gtk.Application({
 const clock = new TextClock(System.programArgs[0]);
 
 app.connect('activate', () => {
-  let win = new Gtk.ApplicationWindow({ application: app });
-  let time_label = new Gtk.Label({ label: clock.toString() });
 
   let cssProvider = new Gtk.CssProvider();
   cssProvider.load_from_data(`
     window {
       background: black;
-      font-size: 370px;
-      font-family: Roboto;
+      font-size: 500px;
+      font-family: Roboto Condensed;
+      font-weight: bold;
       color: white;
     }
   `);
-  let styleContext = win.get_style_context();
-  styleContext.add_provider(
-    cssProvider,
-    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-  );
 
-  win.add(time_label);
-  win.fullscreen();
-  win.connect('draw', (widget) => {
-    widget.get_window().set_opacity(0.6);
+  let windows = create_windows(app);
+  close_all = windows => {
+    windows.forEach(win => {
+      try {
+        win.close()
+      } catch(e) {
+        // already closed
+      }
+    });
+  };
+  let time_labels = [];
+
+  windows.forEach(win => {
+    let time_label = new Gtk.Label({ label: clock.toString() });
+
+    let styleContext = win.get_style_context();
+    styleContext.add_provider(
+      cssProvider,
+      Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+    );
+
+    win.add(time_label);
+    win.fullscreen();
+    win.set_keep_above(true);
+    win.connect('draw', (widget) => {
+      widget.get_window().set_opacity(0.6);
+    });
+    win.connect('key-press-event', (widget, event) => {
+      // close on ESC key
+      if (event.get_keycode()[1] == 9) close_all(windows);
+    });
+    time_labels.push(time_label);
+    win.show_all();
   });
-  win.connect('key-press-event', (widget, event) => {
-    // close on ESC key
-    if (event.get_keycode()[1] == 9) win.close();
-  });
-  win.show_all();
+
   setInterval(() => {
     clock.seconds--;
-    if (clock.seconds <= 0) win.close();
-    time_label.set_label(`${clock.toString()}`);
+    if (clock.seconds <= 0) close_all(windows);
+    time_labels.forEach(label => label.set_label(`${clock.toString()}`));
   }, 1000)
     
 });
