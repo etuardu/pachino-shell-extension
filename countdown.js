@@ -37,6 +37,7 @@ function create_windows(app) {
       application: app,
     });
     win.move(x, y);
+    win.stick(); // always on visible workspace
     windows.push(win);
   }
   return windows;
@@ -88,7 +89,7 @@ app.connect('activate', () => {
     win.connect('draw', (widget) => {
       widget.get_window().set_opacity(0.6);
     });
-    win.connect('key-press-event', (widget, event) => {
+    win.connect('key-release-event', (widget, event) => {
       // close on ESC key
       if (event.get_keycode()[1] == 9) close_all(windows);
     });
